@@ -1,0 +1,70 @@
+﻿    @{
+    Layout = null;
+}
+@model MainModel
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/site.css">
+</head>
+<body>
+    <div style="background-color: #121f3c; background: rgb(0 0 0 / 40%); height: 100%; display: block; ">
+        <header>
+            <div>
+                <div align="left" style="display: inline-block;">
+                    <img src="~/css/logo.png" width="200" />
+                </div>
+                <div align="right" style="margin-top: 10px;display:inline-block; float:right;">
+                    <label>User: @Model.login Role: @Model.role</label>
+                </div>
+            </div>
+        </header>
+        <div style="background-color: #000000; background: rgb(0 0 0);">
+            @if (Model.role == "")
+            {
+                <p align="center">There is nothing here yet</p>
+            }
+            else
+            {
+                <p align="center">Main Page</p>
+            }
+        </div>
+        @if (Model.role != null)
+        {
+    <form method="post" style="text-align: center;" asp-action="Index">
+        @if (Model.role == "Администратор")
+        {
+            <button class="form_button" name="WorkplaceButton" value="Device" type="submit" asp-controller="Devices" asp-action="Index">Workplace device</button>
+            <button class="form_button" name="RoleButton" value="Roles" type="submit" asp-controller="Roles" asp-action="Index">Roles</button>
+            <button class="form_button" name="ReservationTable" value="Reservation" asp-controller="Main" asp-action="Index" type="submit">Reservation table</button>
+            <button class="form_button" name="Tables" value="Tables" type="submit" asp-controller="Table" asp-action="Index">Tables</button>
+        }
+        <button class="form_button" name="ExitButton" value="Exit" type="submit">Sign out</button>
+    </form>
+            <br /><br /><br /><br />
+            <div style="display:flex;justify-content:center; align-items:center;">
+                <form class="form" method="post" asp-action="ExecuteQuery" style="width:500px">
+                    <h1 class="form_title">Workplace device</h1>
+                    <div class="form-group">
+                        <select name="value">
+                            @foreach (var item in Model.devices)
+                            {
+                                <option value="@item.DeviceID">@item.DeviceName</option>
+                            }
+                        </select>
+                    </div>
+                    <br />
+                    <div class="form_group">
+                        <input class="form_input" placeholder="Title Device" name="titleDevice" />
+                    </div>
+                    <p style="font-size:16px;color:red;">@Model.message</p><br />
+                    <div style="display: flex; justify-content: center;">
+                        <button style="margin:3px;" class="form_button" name="AddButton" value="Add" type="submit">Add</button>
+                        <button style="margin:3px;" class="form_button" name="UpdateButton" value="Update" type="submit">Update</button>
+                        <button style="margin:3px;" class="form_button" name="DeleteButton" value="Delete" type="submit">Delete</button>
+                    </div>
+                </form>
+            </div>
+        }
+    </div>
+</body>
+</html>

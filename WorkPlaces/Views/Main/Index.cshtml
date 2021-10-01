@@ -1,0 +1,88 @@
+﻿@{
+    Layout = null;
+}
+@model MainModel
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="~/css/site.css">
+</head>
+<body>
+    <div style="background-color: #121f3c; background: rgb(0 0 0 / 40%); height: 100%; display: block; ">
+        <header>
+            <div>
+                <div align="left" style="display: inline-block;">
+                    <img src="~/css/logo.png" width="200" />
+                </div>
+                <div align="right" style="margin-top: 10px;display:inline-block; float:right;">
+                    <label>User: @Model.login Role: @Model.role</label>
+                </div>
+            </div>
+        </header>
+        <div style="background-color: #000000; background: rgb(0 0 0);">
+            @if (Model.role == null)
+            {
+                <p align="center">There is nothing here yet</p>
+            }
+            else
+            {
+                <p align="center">Main Page</p>
+            }
+        </div>
+        @if (Model.role != null)
+        {
+            <form method="post" style="text-align: center;" asp-action="Index">
+                @if (Model.role == "Администратор")
+                {
+                    <button class="form_button" name="WorkplaceButton" value="Device" type="submit" asp-controller="Devices" asp-action="Index">Workplace device</button>
+                    <button class="form_button" name="RoleButton" value="Roles" type="submit" asp-controller="Roles" asp-action="Index">Roles</button>
+                    <button class="form_button" name="ReservationTable" value="Reservation" asp-controller="Main" asp-action="Index" type="submit">Reservation table</button>
+                    <button class="form_button" name="Tables" value="Tables" type="submit" asp-controller="Table" asp-action="Index">Tables</button>
+                }
+                <button class="form_button" name="ExitButton" value="Exit" type="submit">Sign out</button>
+            </form>
+            <br /><br /><br /><br />
+            <div style="display:flex;justify-content:center; align-items:center;">
+                <form class="form" method="post" asp-action="Main" style="width:500px">
+                    <h1 class="form_title">Reservation table</h1>
+                    <p align="left"><label style="font-size:16px;">Enter date: </label><input type="date" class="form_date" name="DateTB" id="DateTB" value="@string.Format("{0:yyyy-MM-dd}", Model.date)" /><button style="margin-left: 20px;" class="form_button" name="Submit" value="Submit" type="submit">Submit</button></p>
+                    <p align="center">
+                        <table border="0" width="500" id="Table">
+                            <tr>
+                                <td height="200">
+                                    <div style="overflow:scroll; height:200px;">
+                                        <table cellspacing="0" cellpadding="1" border="1" width="300" height="200px" id="TableID">
+                                            @for (int i = 0; i < Model.reservations.Count(); i += 3)
+                                            {
+                                                <tr>
+                                                    @for (int j = 0; j < 3; j++)
+                                                    {
+                                                        if (i + j >= Model.reservations.Count())
+                                                            break;
+                                                        <td><p align="center"><button class="form_button" onclick="СlickTable(this.innerHTML)" value="Table" type="button">@Model.reservations.ElementAt(i + j).RerservationID</button></p></td>
+                                                    }
+                                                </tr>
+                                            }
+                                        </table>
+                                    </div>
+                                </td>
+                                <td>
+                                    @for (int i = 0; i < Model.devices.Count(); i++)
+                                    {
+                                        <input type="checkbox" name="a" class="custom-checkbox" id="@Model.devices.ElementAt(i).DeviceID" value="@Model.devices.ElementAt(i).DeviceName" checked="@Model.devicesCheckBox[i]"><label for="@Model.devices.ElementAt(i).DeviceID" style="font-size:18px;">@Model.devices.ElementAt(i).DeviceName</label>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label id="LabelSelect" style="font-size:16px;"></label><input type="hidden" name="TableSelect" id="TableSelect" value="@Model.table" /><button class="form_button" id="BookButton" name="BookButton" value="Book" type="submit" style="margin-right: 7px; visibility: hidden; width: 80px; height: 25px;padding:0;">To book</button></td>
+                                <td><p align="center"><button class="form_button" name="EditButton" value="Edit" type="button" onclick="EditClick()">Edit devices</button></p></td>
+                            </tr>
+                        </table>
+                    </p>
+                </form>
+            </div>
+        }
+    </div>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="\js\site.js" charset="utf-8"></script>
