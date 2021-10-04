@@ -19,7 +19,7 @@ namespace WorkPlaces.Repository.Register
                     Name = name,
                     Login = login,
                     Password = password,
-                    RoleID = 1
+                    RoleID = 5
                 };
                 applicationContext.employee.AddRange(employee);
                 applicationContext.SaveChanges();

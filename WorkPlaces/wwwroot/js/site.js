@@ -1,6 +1,6 @@
 ﻿var today = new Date().toISOString().split('T')[0];
 document.getElementsByName("DateTB")[0].setAttribute('min', today);
-if (getCookie("Role") == "Администратор") {
+if (getCookie("Role") == "Администратор" || getCookie("Check") == "true") {
     document.getElementById("BookButton").innerHTML = "View";
 }
 function СlickTable(innerHTML) {

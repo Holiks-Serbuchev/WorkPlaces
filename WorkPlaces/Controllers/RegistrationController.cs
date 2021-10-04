@@ -19,7 +19,8 @@ namespace WorkPlaces.Controllers
                     Response.Cookies.Append("Id", _register.GetIdByLogin(login).ToString(), new CookieOptions() { Path = "/", HttpOnly = false, Secure = true });
                     Response.Cookies.Append("Login", login, new CookieOptions() { Path = "/", HttpOnly = false, Secure = true });
                     Response.Cookies.Append("Password", password, new CookieOptions() { Path = "/", HttpOnly = false, Secure = true });
-                    Response.Cookies.Append("Role", "Администратор", new CookieOptions() { Path = "/", HttpOnly = false, Secure = true });
+                    Response.Cookies.Append("Check", "", new CookieOptions() { Path = "/", HttpOnly = false, Secure = true });
+                    Response.Cookies.Append("Role", "Trainee", new CookieOptions() { Path = "/", HttpOnly = false, Secure = true });
                     return RedirectToAction("Index", "Main");
                 }
                 else if (!value.Contains("True") && value != "False")

@@ -15,7 +15,7 @@ namespace WorkPlaces.Controllers
             mainModel.login = Request.Cookies["Login"];
             mainModel.role = Request.Cookies["Role"];
             mainModel.devices = new List<Models.DevicesModel>();
-            _mainService.GetReservations(mainModel, DateTime.Now.ToString("yyyy-MM-dd"), Request.Cookies["Id"]);
+            Response.Cookies.Append("Check", _mainService.GetReservations(mainModel, DateTime.Now.ToString("yyyy-MM-dd"), Request.Cookies["Id"]));
             if (ExitButton != null)
             {
                 Response.Cookies.Delete("Login");
@@ -33,11 +33,11 @@ namespace WorkPlaces.Controllers
             mainModel.devices = new List<Models.DevicesModel>();
             mainModel.table = TableSelect;
             if (Submit != null && DateTB != null)
-                _mainService.GetReservations(mainModel, DateTB, Request.Cookies["Id"]);
+                Response.Cookies.Append("Check",_mainService.GetReservations(mainModel, DateTB, Request.Cookies["Id"]));
             else if (BookButton != null) 
             {
-                string value = _mainService.GetDevices(mainModel, DateTB, TableSelect, Request.Cookies["Id"]);
-                if (value != "true" && mainModel.role != "Администратор")
+                Response.Cookies.Append("Check",_mainService.GetDevices(mainModel, DateTB, TableSelect, Request.Cookies["Id"]));
+                if (Request.Cookies["Check"] != "true" && mainModel.role != "Администратор")
                 {
                     _mainService.UpdateTable(Request.Cookies["Id"], Int32.Parse(TableSelect), DateTime.Parse(DateTB));
                     _mainService.GetDevices(mainModel, DateTB, TableSelect, Request.Cookies["Id"]);

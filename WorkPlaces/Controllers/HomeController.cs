@@ -36,6 +36,7 @@ namespace WorkPlaces.Controllers
                         Response.Cookies.Append("Id", user.ElementAt(0).IDemployee.ToString(), new CookieOptions() { Path = "/", HttpOnly = false, Secure = true });
                         Response.Cookies.Append("Login",login,new CookieOptions(){Path = "/",HttpOnly = false,Secure = true});
                         Response.Cookies.Append("Password", password, new CookieOptions() { Path = "/", HttpOnly = false, Secure = true });
+                        Response.Cookies.Append("Check", "", new CookieOptions() { Path = "/", HttpOnly = false, Secure = true });
                         Response.Cookies.Append("Role", _loginService.GetRoleByID(user.ElementAt(0).RoleID), new CookieOptions() { Path = "/", HttpOnly = false, Secure = true });
                         return RedirectToAction("Index", "Main");
                     }
